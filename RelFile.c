@@ -16,9 +16,9 @@ static bool
 rel_file_is_valid(RelFile rel_file)
 {
     if (rel_file == INVALID_REL_FILE) 
-        return 1;
-    else    
         return 0;
+    else    
+        return 1;
 }
 
 RelFile
