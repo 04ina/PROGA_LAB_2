@@ -4,10 +4,16 @@ SRCS = *.c
 OBJS = $(SRCS:.c=.o)
 LIBS = -I./headers/
 
-.PHONY: clean
+.PHONY: all clean
 
 $(OBJS): $(SRCS)
 	gcc -c $(FLAGS) $(SRCS) 
 
+all:
+
+
+	gcc -o program $(OBJS) 
+
 clean:
+	rm program
 	rm *.o
