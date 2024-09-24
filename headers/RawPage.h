@@ -15,7 +15,7 @@
 
 typedef struct RawPageData
 {
-    void *data;
+    char *data;
 } RawPageData;
 
 typedef RawPageData *RawPage;
