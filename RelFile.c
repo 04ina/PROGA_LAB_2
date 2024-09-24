@@ -40,11 +40,7 @@ rel_file_drop(RelFile rel_file)
 static void
 rel_file_get_parse_name(RelOid rel_oid, ForkType fork, String file_name)
 {
-    int name_size = 0;
-
     sprintf(file_name.mem,"%d", (int) rel_oid);
-
-    file_name.mem[sizeof(file_name.mem)] = '_';
 
     switch (fork)
     {
