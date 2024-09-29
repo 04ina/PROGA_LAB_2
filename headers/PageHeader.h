@@ -33,8 +33,8 @@ typedef struct PageHeaderData
 
 typedef PageHeaderData *PageHeader;
 
-extern PageHeader page_header_init(void);
+extern PageHeader PageHeaderInit(void);
 
-extern void page_header_drop(PageHeader page_header);
+extern void PageHeaderDrop(PageHeader pageHeader);
 
 #endif  /* PAGE_HEADER_H */ 

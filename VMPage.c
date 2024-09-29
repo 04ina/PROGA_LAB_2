@@ -1,39 +1,35 @@
 #include "headers/VMPage.h"
 
 VMPage
-vm_page_init(void)
+VMPageInit(void)
 {
-    VMPage vm_page = (VMPage) malloc(sizeof(VMPageData));
+    VMPage vmPage = (VMPage) malloc(sizeof(VMPageData));
 
-    vm_page->data = page_init();
+    vmPage->data = PageInit();
 
-    return vm_page;
+    return vmPage;
 }
 
 void
-vm_page_drop(VMPage vm_page)
+VMPageDrop(VMPage vmPage)
 {
-    page_drop(vm_page->data);
-    free(vm_page);
-}
-
-VMPage
-vm_page_read(unsigned int rel_oid, ForkType fork, PageNumber page_number)
-{
-    VMPage vm_page;
-    
-    vm_page = (VMPage) page_read(rel_oid, fork, page_number);
-
-    return vm_page;
+    PageDrop(vmPage->data);
+    free(vmPage);
 }
 
 void
-vm_page_print_raw_data(VMPage vm_page, FILE *output)
+VMPageRead(VMPage vmPage, unsigned int relOid, ForkType fork, PageNumber pageNumber)
+{
+    PageRead((Page) vmPage->data, relOid, fork, pageNumber);
+}
+
+void
+VMPagePrintRawData(VMPage vmPage, FILE *output)
 {
     for(int i = 0; i < RAW_PAGE_SIZE; i++)
     {
         fprintf(output, "%x%x", 
-                vm_page->data->raw_content->data[i] & (0xF0),   
-                vm_page->data->raw_content->data[i] & (0x0F));
+                vmPage->data->rawContent->data[i] & (0xF0),   
+                vmPage->data->rawContent->data[i] & (0x0F));
     }
 }

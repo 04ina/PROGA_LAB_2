@@ -13,47 +13,50 @@
 #define INVALID_REL_FILE (RelFile) 0
 
 static bool
-rel_file_is_valid(RelFile rel_file)
+RelFileIsValid(RelFile relFile)
 {
-    if (rel_file == INVALID_REL_FILE) 
+    if (relFile == INVALID_REL_FILE) 
         return 0;
     else    
         return 1;
 }
 
 RelFile
-rel_file_init(void)
+RelFileInit(RelOid relOid, ForkType fork)
 {
-    RelFile rel_file;
+    RelFile relFile;
 
-    rel_file = malloc(sizeof(RelFileData)); 
+    relFile = malloc(sizeof(RelFileData)); 
 
-    return rel_file; 
+    relFile->fork = fork;
+    relFile->relOid = relOid;
+
+    return relFile; 
 }
 
 void
-rel_file_drop(RelFile rel_file)
+RelFileDrop(RelFile relFile)
 {
-    free(rel_file);
+    free(relFile);
 }
 
 static void
-rel_file_get_parse_name(RelOid rel_oid, ForkType fork, String file_name)
+RelFileGetParseName(RelOid relOid, ForkType fork, String fileName)
 {
-    sprintf(file_name.mem,"%d", (int) rel_oid);
+    sprintf(fileName->ptr, "%d", (int) relOid);
 
     switch (fork)
     {
         case MAIN_FORK:
             break;
         case FSM_FORK:
-            strcat(file_name.mem, "_fsm");
+            strcat(fileName->ptr, "_fsm");
             break;
         case VM_FORK:
-            strcat(file_name.mem, "_vm");
+            strcat(fileName->ptr, "_vm");
             break;
         case INIT_FORK:
-            strcat(file_name.mem, "_init");
+            strcat(fileName->ptr, "_init");
             break;
         default:
             assert(0);
@@ -61,12 +64,12 @@ rel_file_get_parse_name(RelOid rel_oid, ForkType fork, String file_name)
 }
 
 bool
-rel_file_read_raw_page(RelFile rel_file, unsigned int page_number, char *raw_page)
+RelFileReadRawPage(RelFile relFile, unsigned int pageNumber, char *rawPage)
 {
-    FILE *file = rel_file->file;
+    FILE *file = relFile->file;
     int result;
 
-    result = fseek(file, RAW_PAGE_SIZE * page_number, SEEK_SET);
+    result = fseek(file, RAW_PAGE_SIZE * pageNumber, SEEK_SET);
 
     if (result != 0)
     {
@@ -74,40 +77,32 @@ rel_file_read_raw_page(RelFile rel_file, unsigned int page_number, char *raw_pag
         return false;
     }
 
-    fread((char *) raw_page, RAW_PAGE_SIZE, 1, file);
+    fread((char *) rawPage, RAW_PAGE_SIZE, 1, file);
 
     fseek(file, 0, SEEK_END);
 
     return true;
 }
 
-RelFile
-rel_file_open_for_read(RelOid rel_oid, ForkType fork) 
+void
+RelFileOpenForRead(RelFile relFile) 
 {
-    RelFile rel_file;
+    char constFileName[MAX_REL_FILE_NAME_SIZE]; 
 
-    rel_file = rel_file_init();
+    String fileName = StringInit(MAX_REL_FILE_NAME_SIZE);
 
-    String file_name = string_init(MAX_REL_FILE_NAME_SIZE);
+    RelFileGetParseName(relFile->relOid, relFile->fork, fileName);
 
-    rel_file_get_parse_name(rel_oid, fork, file_name);
+    strcpy(constFileName, fileName->ptr);
+    StringDrop(fileName);
 
-    rel_file->file = fopen(file_name.mem, "r");
-
-    string_drop(file_name);
-
-    rel_file->fork = fork;
-    rel_file->rel_oid = rel_oid;
-
-    return rel_file;
+    relFile->file = fopen(constFileName, "r");
 }
 
 void
-rel_file_close(RelFile rel_file) 
+RelFileClose(RelFile relFile) 
 {
-    assert(rel_file_is_valid(rel_file));
+    assert(RelFileIsValid(relFile));
 
-    fclose(rel_file->file);
-
-    rel_file_drop(rel_file);
+    fclose(relFile->file);
 }

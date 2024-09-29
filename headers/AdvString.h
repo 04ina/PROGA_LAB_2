@@ -10,13 +10,15 @@
 
 #include <stdlib.h>
 
-typedef struct String {
+typedef struct StringData {
     size_t size;
-    char *mem;
-} String;
+    char *ptr;
+} StringData;
 
-extern String string_init(size_t size);
+typedef StringData *String;
 
-extern void string_drop(String string);
+extern String StringInit(size_t size);
+
+extern void StringDrop(String string);
 
 #endif  /* ADV_STRING_H */

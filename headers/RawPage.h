@@ -20,12 +20,12 @@ typedef struct RawPageData
 
 typedef RawPageData *RawPage;
 
-extern RawPage raw_page_init(void);
+extern RawPage RawPageInit(void);
 
-extern void raw_page_drop(RawPage raw_page);
+extern void RawPageDrop(RawPage rawPage);
 
-extern RawPage raw_page_read(unsigned int rel_oid, ForkType fork, unsigned int page_number);
+extern void RawPageRead(RawPage rawPage, unsigned int relOid, ForkType fork, unsigned int pageNumber);
 
-extern PageHeader raw_page_parse_header(RawPage raw_page);
+extern void RawPageParseHeader(RawPage rawPage, PageHeader pageHeader);
 
 #endif  /* RAW_PAGE_H */

@@ -1,19 +1,22 @@
 #include "headers/AdvString.h"
 
 String
-string_init(size_t size)
+StringInit(size_t size)
 {
     String string; 
 
-    string.size = size;
+    string = (String) malloc(sizeof(StringData));
 
-    string.mem = (char *) malloc(size);
+    string->size = size;
+
+    string->ptr = (char *) malloc(size);
 
     return string;
 }
 
 void
-string_drop(String string)
+StringDrop(String string)
 {
-    free(string.mem);
+    free(string->ptr);
+    free(string);
 }

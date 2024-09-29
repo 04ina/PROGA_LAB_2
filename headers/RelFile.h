@@ -22,22 +22,22 @@ typedef enum ForkType {
 
 typedef struct RelFileData
 {
-    FILE    *file;
+    FILE        *file;
 
-    RelOid  rel_oid;
-    ForkType  fork;
+    RelOid      relOid;
+    ForkType    fork;
 } RelFileData;
 
 typedef RelFileData *RelFile;
 
-extern RelFile rel_file_init(void);
+extern RelFile RelFileInit(RelOid relOid, ForkType fork);
 
-extern void rel_file_drop(RelFile rel_file);
+extern void RelFileDrop(RelFile relFile);
 
-extern bool rel_file_read_raw_page(RelFile rel_file, unsigned int page_number, char *raw_page);
+extern bool RelFileReadRawPage(RelFile relFile, unsigned int pageNumber, char *rawPage);
 
-extern RelFile rel_file_open_for_read(RelOid rel_oid, ForkType fork);
+extern void RelFileOpenForRead(RelFile relFile);
 
-extern void rel_file_close(RelFile rel_file);
+extern void RelFileClose(RelFile relFile);
 
 #endif  /* REL_FILE_H */

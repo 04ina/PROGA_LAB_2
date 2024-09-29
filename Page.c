@@ -6,43 +6,39 @@
 #include "headers/RawPage.h"
 
 Page
-page_init(void) 
+PageInit(void) 
 {
-    Page page = malloc(sizeof(Page));
+    Page page = malloc(sizeof(PageData));
 
     return page;
 }
 
 void
-page_drop(Page page) 
+PageDrop(Page page) 
 {
-    raw_page_drop(page->raw_content);
-    page_header_drop(page->header);  
+    PageHeaderDrop(page->header);  
+    RawPageDrop(page->rawContent);
 
     free(page);
 }
 
-Page
-page_read(unsigned int rel_oid, ForkType fork, PageNumber page_number)
+void
+PageRead(Page page, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
-    Page    page;
-
-    RawPage raw_page;
-    PageHeader page_header;
+    RawPage rawPage;
+    PageHeader pageHeader;
 
     bool found;
 
-    page = page_init();
+    rawPage = RawPageInit();
+    RawPageRead(rawPage, relOid, fork, pageNumber);
 
-    raw_page = raw_page_read(rel_oid, fork, page_number);
-    
-    page_header = raw_page_parse_header(page->raw_content);
+    pageHeader = PageHeaderInit();
+    RawPageParseHeader(rawPage, pageHeader);
 
-    page->raw_content = raw_page;
-    page->header = page_header;
-    page->number = page_number;
+    page->rawContent = rawPage;
+    page->header = pageHeader;
+    page->number = pageNumber;
     page->fork = fork;
-    page->rel_oid = rel_oid;
-
-    return page;
+    page->relOid = relOid;
 }

@@ -19,12 +19,12 @@ typedef struct FSMPageData
 
 typedef FSMPageData *FSMPage;
 
-extern FSMPage fsm_page_init(void);
+extern FSMPage FSMPageInit(void);
 
-extern void fsm_page_drop(FSMPage fsm_page);
+extern void FSMPageDrop(FSMPage fsmPage);
 
-extern FSMPage fsm_page_read(unsigned int rel_oid, ForkType fork, PageNumber page_number);
+extern void FSMPageRead(FSMPage fsmPage, unsigned int relOid, ForkType fork, PageNumber pageNumber);
 
-extern void fsm_page_print_raw_data(FSMPage fsm_page, FILE *output);
+extern void FSMPagePrintRawData(FSMPage fsmPage, FILE *output);
 
 #endif  /* FSMPAGE_H*/

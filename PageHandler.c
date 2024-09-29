@@ -5,82 +5,76 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct PageHandlerData
-{
-    //static vars:
-    FILE *output;
-    FILE *input;
-
-} PageHandlerData;
-
-typedef PageHandlerData *PageHandler;
-
 PageHandler
-page_handler_init(void)
+PageHandlerInit(void)
 {
-    PageHandler page_handler = (PageHandler) malloc(sizeof(PageHandlerData));
+    PageHandler pageHandler = (PageHandler) malloc(sizeof(PageHandlerData));
 
-    page_handler->output = NULL;
-    page_handler->input = NULL;
+    pageHandler->output = NULL;
+    pageHandler->input = NULL;
 }
 
 void
-page_handler_drop(PageHandler page_handler)
+PageHandlerDrop(PageHandler pageHandler)
 {
-    free(page_handler);
-
+    free(pageHandler);
 }
 
 void
-page_handler_set_output(PageHandler page_handler, FILE *output)
+PageHandlerSetOutput(PageHandler pageHandler, FILE *output)
 {
-    page_handler->output = output;
+    pageHandler->output = output;
 }
 
 void
-page_handler_set_input(PageHandler page_handler, FILE *input)
+PageHandlerSetInput(PageHandler pageHandler, FILE *input)
 {
-    page_handler->input = input;
+    pageHandler->input = input;
 }
 
 bool
-page_handler_print_raw_fsm_page(PageHandler page_handler, unsigned int rel_oid, ForkType fork, PageNumber page_number)
+PageHandlerPrintRawFSMPage(PageHandler pageHandler, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
-    FSMPage fsm_page;
-    if (page_handler->output == NULL)
+    FSMPage fsmPage;
+    if (pageHandler->output == NULL)
     {
         fprintf(stdout, "The page_header output is not specified");
         return false;
     }
 
-    FILE *output = page_handler->output;
+    FILE *output = pageHandler->output;
+    
+    fsmPage = FSMPageInit();
 
-    fsm_page = fsm_page_read(rel_oid, fork, page_number);
-
-    fsm_page_print_raw_data(fsm_page, output);
-
-    fsm_page_drop(fsm_page);
+    FSMPageRead(fsmPage, relOid, fork, pageNumber);
+    
+    FSMPagePrintRawData(fsmPage, output);
+    
+    FSMPageDrop(fsmPage);
 
     return true;
 }
 
 bool
-page_handler_print_raw_vm_page(PageHandler page_handler, unsigned int rel_oid, ForkType fork, PageNumber page_number)
+PageHandlerPrintRawVMPage(PageHandler pageHandler, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
-    VMPage vm_page;
-    if (page_handler->output == NULL)
+    VMPage vmPage;
+
+    if (pageHandler->output == NULL)
     {
         fprintf(stdout, "The page_header output is not specified");
         return false;
     }
 
-    FILE *output = page_handler->output;
+    FILE *output = pageHandler->output;
 
-    vm_page = vm_page_read(rel_oid, fork, page_number);
-
-    vm_page_print_raw_data(vm_page, output);
-
-    vm_page_drop(vm_page);
+    vmPage = VMPageInit();
+    
+    VMPageRead(vmPage, relOid, fork, pageNumber);
+    
+    VMPagePrintRawData(vmPage, output);
+    
+    VMPageDrop(vmPage);
 
     return true;
 }

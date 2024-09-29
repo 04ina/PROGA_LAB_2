@@ -19,12 +19,12 @@ typedef struct VMPageData
 
 typedef VMPageData *VMPage;
 
-extern VMPage vm_page_init(void);
+extern VMPage VMPageInit(void);
 
-extern void vm_page_drop(VMPage vm_page);
+extern void VMPageDrop(VMPage vmPage);
 
-extern VMPage vm_page_read(unsigned int rel_oid, ForkType fork, PageNumber page_number);
+extern void VMPageRead(VMPage vmPage, unsigned int relOid, ForkType fork, PageNumber pageNumber);
 
-extern void vm_page_print_raw_data(VMPage vm_page, FILE *output);
+extern void VMPagePrintRawData(VMPage vmPage, FILE *output);
 
 #endif  /* VMPAGE_H*/

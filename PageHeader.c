@@ -3,15 +3,15 @@
 #include "stdlib.h"
 
 PageHeader
-page_header_init(void)
+PageHeaderInit(void)
 {
-    PageHeader page_header = (PageHeader) malloc(sizeof(PageHeaderData));
+    PageHeader pageHeader = (PageHeader) malloc(sizeof(PageHeaderData));
 
-    return page_header;
+    return pageHeader;
 }
 
 void
-page_header_drop(PageHeader page_header)
+PageHeaderDrop(PageHeader page_header)
 {
     free(page_header);
 }

@@ -6,55 +6,45 @@
 #include <string.h>
 
 RawPage
-raw_page_init(void)
+RawPageInit(void)
 {
-    RawPage raw_page;
+    RawPage rawPage;
     
-    raw_page = malloc(sizeof(RawPageData));
+    rawPage = malloc(sizeof(RawPageData));
 
-    raw_page->data = (void *) malloc(8192);
+    rawPage->data = (char *) malloc(RAW_PAGE_SIZE);
 
-    return raw_page;
+    return rawPage;
 }
 
 void
-raw_page_drop(RawPage raw_page)
+RawPageDrop(RawPage rawPage)
 {
-    free(raw_page->data);
-    free(raw_page);
+    free(rawPage->data);
+    free(rawPage);
 }
 
-RawPage
-raw_page_read(unsigned int rel_oid, ForkType fork, unsigned int page_number)
+void
+RawPageRead(RawPage rawPage, unsigned int relOid, ForkType fork, unsigned int pageNumber)
 {
-    RelFile rel_file;
+    RelFile relFile;
     bool found;
-    RawPage raw_page;
 
-    raw_page = raw_page_init();
-
-    rel_file = rel_file_open_for_read(rel_oid, fork); 
-
-    found = rel_file_read_raw_page(rel_file, page_number, raw_page->data);
+    relFile = RelFileInit(relOid, fork);
+    RelFileOpenForRead(relFile); 
+    
+    found = RelFileReadRawPage(relFile, pageNumber, rawPage->data);
     if (!found)
     {
         assert(0);
     }
 
-    rel_file_close(rel_file); 
-
-    return raw_page;
+    RelFileClose(relFile); 
+    RelFileDrop(relFile);
 }
 
-PageHeader
-raw_page_parse_header(RawPage raw_page)
+void
+RawPageParseHeader(RawPage rawPage, PageHeader pageHeader)
 {
-    PageHeader page_header;
-
-    page_header = page_header_init();
-
-    memcpy(page_header, raw_page->data, sizeof(PageHeader));
-
-    return page_header;
+    memcpy(pageHeader, rawPage->data, sizeof(PageHeaderData));
 }
-

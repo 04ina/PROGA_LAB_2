@@ -15,5 +15,5 @@ all:
 	gcc -o program $(OBJS) 
 
 clean:
-	rm program
-	rm *.o
+	rm -f program
+	rm -f *.o

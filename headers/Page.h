@@ -20,19 +20,19 @@ typedef struct PageData
 
     /* static variables */
     PageHeader header;
-    RawPage    raw_content;
+    RawPage    rawContent;
 
     PageNumber number;
     ForkType fork;
-    unsigned int rel_oid;
+    unsigned int relOid;
 } PageData;
 
 typedef PageData *Page;
 
-extern Page page_init(void);
+extern Page PageInit(void);
 
-extern void page_drop(Page page);
+extern void PageDrop(Page page);
 
-extern Page page_read(unsigned int rel_oid, ForkType fork, PageNumber page_number);
+extern void PageRead(Page page, unsigned int rel_oid, ForkType fork, PageNumber page_number);
 
 #endif  /* PAGE_H */
