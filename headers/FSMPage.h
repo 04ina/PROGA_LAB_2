@@ -13,7 +13,6 @@
 
 typedef struct FSMPageData
 {
-    // static var:
     Page data;
 } FSMPageData;
 
