@@ -17,12 +17,18 @@ FSMPageDrop(FSMPage fsmPage)
     free(fsmPage);
 }
 
+/*
+ * Чтение FSM страницы
+ */ 
 void
 FSMPageRead(FSMPage fsmPage, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
     PageRead((Page) fsmPage->data, relOid, fork, pageNumber);
 }
 
+/*
+ * Вывод в output необработанной информации о FSM странице
+ */
 void
 FSMPagePrintRawData(FSMPage fsmPage, FILE *output)
 {
