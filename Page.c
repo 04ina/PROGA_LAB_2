@@ -22,6 +22,9 @@ PageDrop(Page page)
     free(page);
 }
 
+/*
+ * Получение страницы
+ */ 
 void
 PageRead(Page page, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
