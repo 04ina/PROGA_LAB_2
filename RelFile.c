@@ -12,6 +12,9 @@
 
 #define INVALID_REL_FILE (RelFile) 0
 
+/*
+ * Проверка RelFIle на валидность
+ */
 static bool
 RelFileIsValid(RelFile relFile)
 {
@@ -40,6 +43,9 @@ RelFileDrop(RelFile relFile)
     free(relFile);
 }
 
+/*
+ * Парсинг имени RelFile файла и запись результата в fileName
+ */
 static void
 RelFileGetParseName(RelOid relOid, ForkType fork, String fileName)
 {
@@ -63,6 +69,9 @@ RelFileGetParseName(RelOid relOid, ForkType fork, String fileName)
     }
 }
 
+/*
+ * Получение сырой страницы 
+ */ 
 bool
 RelFileReadRawPage(RelFile relFile, unsigned int pageNumber, char *rawPage)
 {
@@ -84,6 +93,9 @@ RelFileReadRawPage(RelFile relFile, unsigned int pageNumber, char *rawPage)
     return true;
 }
 
+/*
+ * Открытие RelFile для чтения
+ */ 
 void
 RelFileOpenForRead(RelFile relFile) 
 {
@@ -98,7 +110,9 @@ RelFileOpenForRead(RelFile relFile)
 
     relFile->file = fopen(constFileName, "r");
 }
-
+/*
+ * Закрытие открытого RelFile
+ */ 
 void
 RelFileClose(RelFile relFile) 
 {
