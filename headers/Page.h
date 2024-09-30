@@ -16,14 +16,19 @@ typedef unsigned int PageNumber;
 
 typedef struct PageData 
 {
-    /* dynamic variables */
-
-    /* static variables */
+    /* Заголовок страницы */
     PageHeader header;
+
+    /* Необработанная страницы */
     RawPage    rawContent;
 
+    /* Номер страницы */
     PageNumber number;
+
+    /* Слой страницы */
     ForkType fork;
+
+    /* oid отношения, которому принадлежит страница */
     unsigned int relOid;
 } PageData;
 
