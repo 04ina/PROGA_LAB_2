@@ -17,12 +17,18 @@ VMPageDrop(VMPage vmPage)
     free(vmPage);
 }
 
+/*
+ * Чтение VM страницы
+ */
 void
 VMPageRead(VMPage vmPage, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
     PageRead((Page) vmPage->data, relOid, fork, pageNumber);
 }
 
+/*
+ * вывод в output данных VM старницы в необработанном виде 
+ */
 void
 VMPagePrintRawData(VMPage vmPage, FILE *output)
 {
