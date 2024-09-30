@@ -20,18 +20,27 @@ PageHandlerDrop(PageHandler pageHandler)
     free(pageHandler);
 }
 
+/*
+ * Установка output
+ */
 void
 PageHandlerSetOutput(PageHandler pageHandler, FILE *output)
 {
     pageHandler->output = output;
 }
 
+/*
+ * Установка input
+ */
 void
 PageHandlerSetInput(PageHandler pageHandler, FILE *input)
 {
     pageHandler->input = input;
 }
 
+/*
+ * Вывести информацию о необработанной FSM странице
+ */
 bool
 PageHandlerPrintRawFSMPage(PageHandler pageHandler, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
@@ -55,6 +64,9 @@ PageHandlerPrintRawFSMPage(PageHandler pageHandler, unsigned int relOid, ForkTyp
     return true;
 }
 
+/*
+ * Вывести информацию о необработанной VM странице
+ */
 bool
 PageHandlerPrintRawVMPage(PageHandler pageHandler, unsigned int relOid, ForkType fork, PageNumber pageNumber)
 {
