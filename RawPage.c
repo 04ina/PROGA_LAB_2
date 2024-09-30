@@ -24,6 +24,9 @@ RawPageDrop(RawPage rawPage)
     free(rawPage);
 }
 
+/*
+ * Получение сырой страницы.
+ */
 void
 RawPageRead(RawPage rawPage, unsigned int relOid, ForkType fork, unsigned int pageNumber)
 {
@@ -43,6 +46,9 @@ RawPageRead(RawPage rawPage, unsigned int relOid, ForkType fork, unsigned int pa
     RelFileDrop(relFile);
 }
 
+/*
+ * парсинг заголовка страницы
+ */ 
 void
 RawPageParseHeader(RawPage rawPage, PageHeader pageHeader)
 {
