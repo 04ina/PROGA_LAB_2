@@ -13,7 +13,6 @@
 
 typedef struct VMPageData
 {
-    // static var:
     Page data;
 } VMPageData;
 
